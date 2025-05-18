@@ -1,4 +1,4 @@
-const BASE_URL = 'https://fakestoreapi.com';
+const BASE_URL = 'https://fakestoreapi.com/products';
 
 export const fetchProducts = async () => {
   try {
