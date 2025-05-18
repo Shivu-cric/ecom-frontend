@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { fetchProducts } from '../services/api';
 import './Products.css';

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import "./ProductDetailsPage.css";
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -29,42 +30,42 @@ const ProductDetailsPage = () => {
 
   const handleAddToCart = () => {
     try {
-      // Get existing cart items from localStorage
       const existingCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-      
-      // Check if item already exists in cart
       const existingItemIndex = existingCartItems.findIndex(item => item.id === product.id);
       
       if (existingItemIndex !== -1) {
-        // Update quantity if item exists
         existingCartItems[existingItemIndex].quantity += 1;
       } else {
-        // Add new item with quantity 1
         existingCartItems.push({
           ...product,
           quantity: 1
         });
       }
       
-      // Save updated cart back to localStorage
       localStorage.setItem('cartItems', JSON.stringify(existingCartItems));
-      
-      // Show success feedback
       setAddedToCart(true);
-      setTimeout(() => setAddedToCart(false), 2000);
       
-      // Navigate to cart
-      navigate('/cart');
+      setTimeout(() => {
+        setAddedToCart(false);
+        navigate('/cart');
+      }, 500);
     } catch (error) {
       console.error('Error adding to cart:', error);
     }
   };
 
   const handleBuyNow = () => {
-    // Add to cart first
     handleAddToCart();
-    // Then navigate to checkout
     navigate('/checkout');
+  };
+
+  const handleBack = () => {
+    // Go back to the previous page if it exists in history
+    if (location.state?.from) {
+      navigate(location.state.from);
+    } else {
+      navigate('/products');
+    }
   };
 
   if (loading) return <div className="loading">Loading product details...</div>;
@@ -73,8 +74,8 @@ const ProductDetailsPage = () => {
 
   return (
     <div className="product-details-container">
-      <button className="back-button" onClick={() => navigate('/products')}>
-        ← Back to Products
+      <button className="back-button" onClick={handleBack}>
+        ← Back
       </button>
       
       <div className="product-details-content">

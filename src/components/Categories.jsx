@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Categories.css';
 
 const Categories = ({ onSelectCategory, selectedCategory }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -21,6 +24,25 @@ const Categories = ({ onSelectCategory, selectedCategory }) => {
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    // Sync with URL parameters
+    const params = new URLSearchParams(location.search);
+    const categoryParam = params.get('category');
+    if (categoryParam && categoryParam !== selectedCategory) {
+      onSelectCategory(categoryParam);
+    }
+  }, [location.search, selectedCategory, onSelectCategory]);
+
+  const handleCategoryClick = (category) => {
+    onSelectCategory(category);
+    // Update URL with selected category
+    if (category === 'all') {
+      navigate('/products');
+    } else {
+      navigate(`/products?category=${category}`);
+    }
+  };
+
   if (loading) {
     return <div className="categories-loading">Loading categories...</div>;
   }
@@ -33,7 +55,7 @@ const Categories = ({ onSelectCategory, selectedCategory }) => {
           <button
             key={category}
             className={`category-btn ${selectedCategory === category ? 'active' : ''}`}
-            onClick={() => onSelectCategory(category)}
+            onClick={() => handleCategoryClick(category)}
           >
             {category.charAt(0).toUpperCase() + category.slice(1)}
           </button>

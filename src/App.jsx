@@ -10,6 +10,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
+import NavigationBar from "./components/NavigationBar";
 
 // Page Components
 import Home from "./pages/Home";
@@ -32,6 +33,7 @@ const App = () => {
         <Router>
           <div className="app-container">
             <Header />
+            <NavigationBar />
             <main className="main-content">
               <Routes>
                 {/* Public Routes */}

@@ -10,24 +10,6 @@ const categories = [
   { name: "accessories", icon: "👜", color: "#8338ec", label: "Accessories" }
 ];
 
-const testimonials = [
-  {
-    name: "Alice Smith",
-    text: "Shopsy made my shopping experience so easy and fun! Fast delivery and great products.",
-    avatar: "👩"
-  },
-  {
-    name: "John Doe",
-    text: "Excellent customer service and amazing deals. Highly recommended!",
-    avatar: "👨"
-  },
-  {
-    name: "Priya Patel",
-    text: "I love the variety and quality. Will definitely shop again!",
-    avatar: "👩"
-  }
-];
-
 const benefits = [
   { icon: "🚚", text: "Free & Fast Shipping" },
   { icon: "🔄", text: "Easy Returns" },
@@ -91,20 +73,6 @@ const Home = () => {
             <div key={index} className="benefit-card">
               <span className="benefit-icon">{benefit.icon}</span>
               <p className="benefit-text">{benefit.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="testimonials-section">
-        <h2 className="section-title">What Our Customers Say</h2>
-        <div className="testimonials-grid">
-          {testimonials.map((testimonial, index) => (
-            <div key={index} className="testimonial-card">
-              <div className="testimonial-avatar">{testimonial.avatar}</div>
-              <p className="testimonial-text">"{testimonial.text}"</p>
-              <p className="testimonial-name">{testimonial.name}</p>
             </div>
           ))}
         </div>

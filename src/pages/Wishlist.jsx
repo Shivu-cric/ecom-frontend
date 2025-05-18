@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa';
 import './Wishlist.css';
 
 const Wishlist = () => {
@@ -43,6 +44,10 @@ const Wishlist = () => {
 
   return (
     <div className="wishlist-container">
+      <Link to="/products" className="back-to-products">
+        <FaArrowLeft /> Back to Products
+      </Link>
+      
       <h1>My Wishlist</h1>
       
       {wishlistItems.length === 0 ? (

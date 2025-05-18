@@ -1,5 +1,5 @@
 import React from "react";
-import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import "./Footer.css";
 
 const Footer = () => {
@@ -10,19 +10,22 @@ const Footer = () => {
           <h2 className="footer-brand">Shopsy</h2>
         </div>
 
-        <div className="footer-bottom">
-          <div className="footer-social">
-            <a href="https://facebook.com" className="social-icon">
-              <FaFacebookF />
-            </a>
-            <a href="https://instagram.com" className="social-icon">
-              <FaInstagram />
-            </a>
-            <a href="https://linkedin.com" className="social-icon">
-              <FaLinkedinIn />
-            </a>
-          </div>
+        <div className="footer-social">
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+            <FaFacebookF />
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+            <FaInstagram />
+          </a>
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+            <FaTwitter />
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+            <FaLinkedinIn />
+          </a>
+        </div>
 
+        <div className="footer-bottom">
           <div className="footer-copyright">
             <p>© 2025 Shopsy. All rights reserved.</p>
             <div className="footer-legal-links">

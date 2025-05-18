@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './ProductCard.css';
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isInWishlist, setIsInWishlist] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
 
   useEffect(() => {
     // Check if product is in wishlist
@@ -13,7 +15,9 @@ const ProductCard = ({ product }) => {
   }, [product.id]);
 
   const handleProductClick = () => {
-    navigate(`/product/${product.id}`);
+    // Save current category/search state in URL
+    const currentPath = `${location.pathname}${location.search}`;
+    navigate(`/product/${product.id}`, { state: { from: currentPath } });
   };
 
   const handleWishlistClick = (e) => {
@@ -36,6 +40,37 @@ const ProductCard = ({ product }) => {
     window.dispatchEvent(new Event('storage'));
   };
 
+  const handleAddToCart = async (e) => {
+    e.stopPropagation();
+    setIsAddingToCart(true);
+
+    try {
+      // Get existing cart items
+      const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+      const existingItemIndex = cartItems.findIndex(item => item.id === product.id);
+
+      if (existingItemIndex !== -1) {
+        cartItems[existingItemIndex].quantity += 1;
+      } else {
+        cartItems.push({
+          ...product,
+          quantity: 1
+        });
+      }
+
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+      // Show success feedback
+      setTimeout(() => {
+        setIsAddingToCart(false);
+        navigate('/cart');
+      }, 500);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      setIsAddingToCart(false);
+    }
+  };
+
   const renderStars = (rating) => {
     return '⭐'.repeat(Math.round(rating));
   };
@@ -56,16 +91,15 @@ const ProductCard = ({ product }) => {
         <h3 className="product-title">{product.title}</h3>
         <div className="product-rating">
           <span>{renderStars(product.rating.rate)}</span>
+          <span className="rating-count">({product.rating.count})</span>
         </div>
         <p className="product-price">${product.price.toFixed(2)}</p>
         <button 
-          className="add-to-cart-btn"
-          onClick={(e) => {
-            e.stopPropagation();
-            // Add to cart logic here
-          }}
+          className={`add-to-cart-btn ${isAddingToCart ? 'adding' : ''}`}
+          onClick={handleAddToCart}
+          disabled={isAddingToCart}
         >
-          ADD TO CART
+          {isAddingToCart ? 'Adding...' : 'ADD TO CART'}
         </button>
       </div>
     </div>
